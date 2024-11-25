@@ -13,7 +13,8 @@ data_config = {
     ],
     'Ncams':
     6,
-    'input_size': (512, 1408),
+    # 'input_size': (512, 1408),
+    'input_size': (416, 704),
     'src_size': (900, 1600),
 
     # Augmentation
@@ -212,7 +213,7 @@ test_data_config = dict(
     ann_file=data_root + 'bevdetv2-nuscenes_infos_val.pkl')
 
 data = dict(
-    samples_per_gpu=1,  # with 32 GPU, Batch Size=32 
+    samples_per_gpu=2,  # with 32 GPU, Batch Size=32 
     workers_per_gpu=2,
     train=dict(
         data_root=data_root,
@@ -253,5 +254,5 @@ custom_hooks = [
     ),
 ]
 
-load_from="/ckpts/bevdet-stbase-4d-stereo-512x1408-cbgs.pth"
+load_from="./ckpts/bevdet-stbase-4d-stereo-512x1408-cbgs.pth"
 # fp16 = dict(loss_scale='dynamic')

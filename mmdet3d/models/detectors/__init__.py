@@ -4,6 +4,8 @@ from .centerpoint import CenterPoint
 from .mvx_two_stage import MVXTwoStageDetector
 from .bevdet import BEVDet, BEVDepth4D, BEVDet4D, BEVStereo4D
 from .bevdet_occ import BEVStereo4DOCC
+from .bevdet_occ_uq import BEVStereo4DOCCUQ
+
 from .render_occ import RenderOcc
 
 

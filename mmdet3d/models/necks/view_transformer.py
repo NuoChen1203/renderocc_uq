@@ -313,6 +313,7 @@ class LSSViewTransformer(BaseModule):
         depth_digit = x[:, :self.D, ...]
         tran_feat = x[:, self.D:self.D + self.out_channels, ...]
         depth = depth_digit.softmax(dim=1)
+        # print("hkj")
         return self.view_transform(input, depth, tran_feat)
 
     def get_mlp_input(self, rot, tran, intrin, post_rot, post_tran, bda):
@@ -773,7 +774,7 @@ class LSSViewTransformerBEVDepth(LSSViewTransformer):
 
     # @force_fp32()
     def get_depth_loss(self, depth_labels, depth_preds):
-        depth_labels = self.get_downsampled_gt_depth(depth_labels)
+        depth_labels = self.get_downsampled_gt_depth(depth_labels) #33792, 88 = 2, 6, 512, 1408
         depth_preds = depth_preds.permute(0, 2, 3,
                                           1).contiguous().view(-1, self.D)
         fg_mask = torch.max(depth_labels, dim=1).values > 0.0
@@ -795,12 +796,13 @@ class LSSViewTransformerBEVDepth(LSSViewTransformer):
         B, N, C, H, W = x.shape
         x = x.view(B * N, C, H, W)
 
-        x = self.depth_net(x, mlp_input, stereo_metas)
-        depth_digit = x[:, :self.D, ...]
+        x = self.depth_net(x, mlp_input, stereo_metas) #torch.Size([12, 120, 32, 88])=  torch.Size([12, 512, 32, 88]) torch.Size([2, 6, 27])
+        depth_digit = x[:, :self.D, ...]  #torch.Size([12, 120, 32, 88])
         tran_feat = x[:, self.D:self.D + self.out_channels, ...]
-        depth = depth_digit.softmax(dim=1)
+        depth = depth_digit.softmax(dim=1) #torch.Size([12, 88, 32, 88])
+        # raise NotImplementedError()
 
-        bev_feat, depth = self.view_transform(input, depth, tran_feat)
+        bev_feat, depth = self.view_transform(input, depth, tran_feat) #torch.Size([2, 32, 16, 200, 200]) torch.Size([12, 88, 32, 88])
         return bev_feat, depth  # depth_digit.sigmoid()
 
 

@@ -6,8 +6,13 @@ from .second_fpn import SECONDFPN
 from .view_transformer import LSSViewTransformer, LSSViewTransformerBEVDepth, \
     LSSViewTransformerBEVStereo
 
+from .view_transformer_uq import LSSViewTransformerUQ, LSSViewTransformerBEVDepthUQ, \
+    LSSViewTransformerBEVStereoUQ
+
 __all__ = [
     'FPN', 'SECONDFPN',
     'LSSViewTransformer', 'CustomFPN', 'FPN_LSS', 'LSSViewTransformerBEVDepth',
     'LSSViewTransformerBEVStereo', 
+
+    'LSSViewTransformerUQ', 'LSSViewTransformerBEVDepthUQ', 'LSSViewTransformerBEVStereoUQ'
 ]
