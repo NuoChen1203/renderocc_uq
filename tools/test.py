@@ -137,6 +137,8 @@ def parse_args():
 def main():
     args = parse_args()
 
+    args.eval= 'mAP'
+
     assert args.eval or args.dump_dir, \
         ('Please specify at least one operation (save/eval/format/show the '
          'results / save the results) with the argument "--eval", "--dump_dir"')
@@ -243,8 +245,8 @@ def main():
             model.cuda(),
             device_ids=[torch.cuda.current_device()],
             broadcast_buffers=False)
-        outputs = multi_gpu_test(model, data_loader, args.dump_dir,
-                                args.gpu_collect
+        outputs = multi_gpu_test(model, data_loader, dump_dir=args.dump_dir,
+                                gpu_collect=args.gpu_collect, tmpdir="/mnt/nuo/RenderOcc/eval_tmp_dir"
                                 )
 
 
